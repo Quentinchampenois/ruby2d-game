@@ -1,3 +1,5 @@
+# Top level class for storing and searching elements
+
 class UiComponent
   attr_accessor :ui_elements
 
@@ -18,11 +20,19 @@ class UiComponent
     drop_elements ids
   end
 
-  def search(_)
-    raise NotImplementedError
+  def pick(key, value)
+    search(key, value).first
+  end
+
+  def pick_all(key, value)
+    search(key, value)
   end
 
   private
+
+  def search(*)
+    raise NotImplementedError
+  end
 
   def find
     @ui_elements.each { |element| }
