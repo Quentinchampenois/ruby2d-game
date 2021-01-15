@@ -39,6 +39,8 @@ class UiComponent
   end
 
   def add(element)
+    return if element.nil? || element.empty?
+
     @ui_elements << element
   end
 end

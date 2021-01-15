@@ -34,5 +34,17 @@ describe UiComponent do
         expect(subject.register(data, get_idx)).to eq(0)
       end
     end
+
+    context 'when element is nil' do
+      let(:data) { nil }
+
+      before do
+        subject.register(data, get_idx)
+      end
+
+      it 'does not store data in ui_elements' do
+        expect(subject.ui_elements).to eq([])
+      end
+    end
   end
 end
