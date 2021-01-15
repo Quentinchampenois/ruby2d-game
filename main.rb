@@ -1,9 +1,9 @@
 # frozen_string_literal: true
 
 require 'ruby2d'
-require 'ui_component'
-require 'player'
-require 'components/star'
+require './ui_component'
+require './player'
+require './components/star'
 
 set background: 'navy'
 # set fps_cap: 20
@@ -21,11 +21,10 @@ class GameSelector
     @ui_component = ui_component
     @stars = Array.new(100).map { Star.new }
 
-    @ui_component.add(Text.new('Fast runner', size: 72, y: 40), :text)
-    @ui_component.last_text.x = (Window.width - @ui_component.last_text.width) / 2
+    @ui_component.add(kind: :text, component: Text.new('Fast runner', size: 72, y: 40)) do |text|
+      text.x = (Window.width - @ui_component.last_text.width) / 2
+    end
 
-    @ui_component.add(Text.new("Press 'spacebar'", size: 32, y: 120), :text)
-    @ui_component.last_text.x = (Window.width - @ui_component.last_text.width) / 2
   end
 
   def update

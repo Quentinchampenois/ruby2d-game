@@ -2,44 +2,43 @@ class UiComponent
   attr_accessor :ui_elements
 
   def initialize
-    @ui_elements = {
-        text: []
-    }
+    @ui_elements = []
   end
 
-  def add(element, kind)
-    @ui_elements[kind] << element
-    get_last_idx kind
+  def register(element, get_idx = false)
+    add element
+
+    last_idx if get_idx
   end
 
-  def last_text
-    last(:text)
+  def unregister(prop)
+    ids = search prop
+    return if ids.nil? || ids.empty?
+
+    drop_elements ids
   end
 
-  def first_text
-    first(:text)
-  end
-
-  def drop_text
-    drop_elements(:text)
+  def search(_)
+    raise NotImplementedError
   end
 
   private
 
-  def get_last_idx(kind)
-    @ui_elements[kind].size - 1
+  def find
+    @ui_elements.each { |element|  }
   end
 
-  def first(key)
-    @ui_elements[key].first
+  def last_idx
+    @ui_elements.size - 1
   end
 
-  def last(key)
-    @ui_elements[key].last
+  def drop_elements(idx)
+    return @ui_elements[idx].clear if idx.is_a? Integer
+
+    idx.each { |id| @ui_elements[id].clear }
   end
 
-  def drop_elements(key)
-    @ui_elements[key].clear
-    puts @ui_elements[key]
+  def add(element)
+    @ui_elements << element
   end
 end
