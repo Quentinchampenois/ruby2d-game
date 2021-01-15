@@ -1,5 +1,6 @@
 # Gemfile
-source "https://rubygems.org"
+source 'https://rubygems.org'
 
-gem "rspec"
-gem "ruby2d"
+gem 'rspec'
+gem 'rubocop', '~> 1.8', require: false
+gem 'ruby2d'

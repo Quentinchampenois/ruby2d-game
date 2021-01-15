@@ -25,7 +25,7 @@ class UiComponent
   private
 
   def find
-    @ui_elements.each { |element|  }
+    @ui_elements.each { |element| }
   end
 
   def last_idx

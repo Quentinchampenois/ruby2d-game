@@ -17,6 +17,7 @@ GRID_HEIGHT = Window.height / SQUARE_SIZE
 # GameSelector class allows to create a game menu
 class GameSelector
   attr_reader :ui_component
+
   def initialize(ui_component)
     @ui_component = ui_component
     @stars = Array.new(100).map { Star.new }
@@ -24,13 +25,10 @@ class GameSelector
     @ui_component.add(kind: :text, component: Text.new('Fast runner', size: 72, y: 40)) do |text|
       text.x = (Window.width - @ui_component.last_text.width) / 2
     end
-
   end
 
   def update
-    if Window.frames % 2 == 0
-      @stars.each { |star| star.move }
-    end
+    @stars.each { |star| star.move } if Window.frames.even?
   end
 
   def begin

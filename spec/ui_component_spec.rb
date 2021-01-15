@@ -4,7 +4,7 @@ require '../ui_component'
 
 describe UiComponent do
   let(:subject) { described_class }
-  let(:data) { { title: "fake data", x: 50, y: 50, width: 200, height: 200 } }
+  let(:data) { { title: 'fake data', x: 50, y: 50, width: 200, height: 200 } }
 
   describe '#new' do
     let(:subject) { described_class.new }
@@ -24,11 +24,10 @@ describe UiComponent do
     end
 
     it 'does not return last index' do
-
       expect(subject.register(data, get_idx)).to be_nil
     end
 
-    context "when get_idx is true" do
+    context 'when get_idx is true' do
       let(:get_idx) { true }
 
       it 'store data in ui_elements' do
