@@ -6,6 +6,8 @@ class UiComponentText < UiComponent
 
   def update!(key, old, new)
     @ui_elements.compact.map do |obj|
+      next if [true, false].include? obj
+
       obj.text = new if obj.text == old
     end
   end

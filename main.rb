@@ -30,10 +30,16 @@ class GameSelector
       text.x = (Window.width - text.width) / 2
       text
     end
+
+    @ui_component.lazy_register do
+      text = Text.new("Press 'space' to play", size: 34, y: 140)
+      text.x = (Window.width - text.width) / 2
+      text
+    end
   end
 
   def begin
-    @ui_component.ui_elements.first.remove
+    @ui_component.ui_elements.map!(&:remove)
   end
 end
 
@@ -61,11 +67,27 @@ update do
 
   if game_finished
     clear
+
+    game_over = {
+        width: 0,
+        height: 0
+    }
+
     game.ui_component.lazy_register do
       text = Text.new("Game over !", size: 34, z: 4)
       text.x = (Window.width - text.width) / 2
       text.y = (Window.height - text.height) / 2
+
+      game_over[:width] = text.x
+      game_over[:height] = text.y
+
       text
+    end
+    game.ui_component.lazy_register do
+      score_detail = Text.new("Your score is : #{score}", size: 26, z: 4)
+      score_detail.x = ((Window.width - score_detail.width) / 2)
+      score_detail.y = ((Window.height - score_detail.height) / 2) + 40
+      score_detail
     end
   end
 
