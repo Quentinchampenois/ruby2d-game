@@ -12,6 +12,6 @@ class Star
   end
 
   def move
-    @shape.y = (@shape.y + @y_velocity) % Window.height
+    @shape.y = (@shape.y - @y_velocity) % Window.height
   end
 end
