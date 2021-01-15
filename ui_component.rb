@@ -13,8 +13,15 @@ class UiComponent
     last_idx if get_idx
   end
 
-  def unregister(prop)
-    ids = search prop
+  def unregister(key, value)
+    ids = pick(key, value)
+    return if ids.nil? || ids.empty?
+
+    drop_elements ids
+  end
+
+  def unregister_all(key, value)
+    ids = search key, value
     return if ids.nil? || ids.empty?
 
     drop_elements ids
