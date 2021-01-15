@@ -7,6 +7,12 @@ class UiComponent
     @ui_elements = []
   end
 
+  def lazy_register(&block)
+    return unless block_given?
+
+    register yield
+  end
+
   def register(element, get_idx = false)
     add element
 
@@ -56,7 +62,7 @@ class UiComponent
   end
 
   def add(element)
-    return if element.nil? || element.empty?
+    return if element.nil?
 
     @ui_elements << element
   end

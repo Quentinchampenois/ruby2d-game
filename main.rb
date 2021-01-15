@@ -1,13 +1,14 @@
 # frozen_string_literal: true
 
 require 'ruby2d'
-require './ui_component'
-require './player'
-require './components/star'
+
+require_relative './ui_component'
+require_relative './components/ui_component_text'
+require_relative './player'
+require_relative './components/star'
 
 set background: 'navy'
 # set fps_cap: 20
-#
 
 # Define grid
 SQUARE_SIZE = 30
@@ -22,23 +23,32 @@ class GameSelector
     @ui_component = ui_component
     @stars = Array.new(100).map { Star.new }
 
-    @ui_component.add(kind: :text, component: Text.new('Fast runner', size: 72, y: 40)) do |text|
-      text.x = (Window.width - @ui_component.last_text.width) / 2
-    end
+    lazy_register 'Fast runner'
   end
 
   def update
-    @stars.each { |star| star.move } if Window.frames.even?
+    #@stars.each { |star| star.move } if Window.frames.even?
   end
 
   def begin
-    @ui_component.drop_text
-    @ui_component.add(Text.new("Let's play !", size: 72, y: 40), :text)
-    @ui_component.last_text.x = (Window.width - @ui_component.last_text.width) / 2
+    lazy_register("Let's play") do
+      @ui_component.ui_elements.first.remove
+    end
+  end
+
+  private
+
+  def lazy_register(str, &block)
+    yield if block_given?
+    @ui_component.lazy_register do
+      text = Text.new(str, size: 72, y: 40)
+      text.x = (Window.width - text.width) / 2
+      text
+    end
   end
 end
 
-ui_component = UiComponent.new
+ui_component = UiComponentText.new
 game = GameSelector.new(ui_component)
 
 update do

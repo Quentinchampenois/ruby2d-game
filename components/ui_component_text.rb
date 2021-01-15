@@ -1,4 +1,4 @@
-require "../ui_component"
+require_relative "../ui_component"
 
 class UiComponentText < UiComponent
   private
