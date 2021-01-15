@@ -23,7 +23,11 @@ class GameSelector
     @ui_component = ui_component
     @stars = Array.new(100).map { Star.new }
 
-    lazy_register 'Fast runner'
+    @ui_component.lazy_register do
+      text = Text.new("Fast runner", size: 72, y: 40)
+      text.x = (Window.width - text.width) / 2
+      text
+    end
   end
 
   def update
@@ -31,26 +35,16 @@ class GameSelector
   end
 
   def begin
-    lazy_register("Let's play") do
-      @ui_component.ui_elements.first.remove
-    end
-  end
-
-  private
-
-  def lazy_register(str, &block)
-    yield if block_given?
-    @ui_component.lazy_register do
-      text = Text.new(str, size: 72, y: 40)
-      text.x = (Window.width - text.width) / 2
-      text
-    end
+    @ui_component.ui_elements.first.remove
   end
 end
 
 ui_component = UiComponentText.new
 game = GameSelector.new(ui_component)
+player = Player.new(SQUARE_SIZE)
+player.shape.remove
 
+has_begun = false
 update do
   game.update
 end
@@ -59,10 +53,23 @@ on :key_down do |event|
   puts event.key
   case event.key
   when 'space'
-    game.begin
+    unless has_begun
+      game.begin unless has_begun
+      player.shape.add
+      has_begun = true
+    end
   when 'right'
-    game.move(:right)
+    player.shape.x += 10 if has_begun
   end
 end
 
+
+on :key_held do |event|
+  case event.key
+  when 'right'
+    player.shape.x += 10 if has_begun
+  when 'left'
+    player.shape.x -= 10 if has_begun
+  end
+end
 show
