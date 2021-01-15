@@ -52,13 +52,31 @@ enemies.each do |eny|
 end
 
 has_begun = false
+game_finished = false
 update do
+
   if Window.frames % 2 == 0
     game.stars.each(&:move)
   end
 
+  if game_finished
+    clear
+    game.ui_component.lazy_register do
+      text = Text.new("Game over !", size: 34, z: 4)
+      text.x = (Window.width - text.width) / 2
+      text.y = (Window.height - text.height) / 2
+      text
+    end
+  end
+
   if has_begun
     enemies.each do |enemy|
+
+      if enemy.shape.contains?(player.shape.x, player.shape.y)
+        game_finished = true
+        has_begun = false
+      end
+
       if enemy.shape.y >= Window.height
         enemy.reset
         game.ui_component.update!(:text, "Score : #{score}", "Score : #{score + 1}")
