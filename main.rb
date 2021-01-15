@@ -41,7 +41,7 @@ ui_component = UiComponentText.new
 game = GameSelector.new(ui_component)
 player = Player.new(SQUARE_SIZE)
 player.shape.remove
-
+score = 0
 enemies = [
     Enemy.new(x: 15, y: 5),
     Enemy.new(x: 300, y: 20),
@@ -61,7 +61,8 @@ update do
     enemies.each do |enemy|
       if enemy.shape.y >= Window.height
         enemy.reset
-        enemy.move
+        game.ui_component.update!(:text, "Score : #{score}", "Score : #{score + 1}")
+        score += 1
       end
 
       enemy.move
@@ -74,7 +75,11 @@ on :key_down do |event|
   when 'space'
     unless has_begun
       game.begin unless has_begun
+      game.ui_component.register(Text.new("Score : #{score}", size: 24, x: 10, y: 10, z: 4))
       player.shape.add
+      enemies.each do |eny|
+        eny.shape.add
+      end
       has_begun = true
     end
   when 'right'

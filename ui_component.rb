@@ -37,6 +37,10 @@ class UiComponent
     search(key, value).first
   end
 
+  def update!(*)
+    raise NotImplementedError
+  end
+
   def pick_all(key, value)
     search(key, value)
   end
