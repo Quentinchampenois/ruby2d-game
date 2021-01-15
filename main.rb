@@ -32,10 +32,6 @@ class GameSelector
     end
   end
 
-  def update
-    #@stars.each { |star| star.move } if Window.frames.even?
-  end
-
   def begin
     @ui_component.ui_elements.first.remove
   end
@@ -46,24 +42,34 @@ game = GameSelector.new(ui_component)
 player = Player.new(SQUARE_SIZE)
 player.shape.remove
 
-enemy = Enemy.new(x: 15, y: 5)
-enemy2 = Enemy.new(x: 300, y: 20)
+enemies = [
+    Enemy.new(x: 15, y: 5),
+    Enemy.new(x: 300, y: 20),
+    Enemy.new(x: 200, y: -15),
+]
+enemies.each do |eny|
+  eny.shape.remove
+end
 
 has_begun = false
 update do
-  game.update
   if Window.frames % 2 == 0
     game.stars.each(&:move)
   end
 
-  if Window.frames % 1 == 0
-    enemy.move
-    enemy2.move
+  if has_begun
+    enemies.each do |enemy|
+      if enemy.shape.y >= Window.height
+        enemy.reset
+        enemy.move
+      end
+
+      enemy.move
+    end
   end
 end
 
 on :key_down do |event|
-  puts event.key
   case event.key
   when 'space'
     unless has_begun
